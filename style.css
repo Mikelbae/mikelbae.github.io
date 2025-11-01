@@ -80,3 +80,19 @@ main:hover {
 nav ul li a.active {
     color: orange;
 }
+
+/* --- Toto Button Styles --- */
+#toto-button {
+    width: 50px; /* Makes the image small */
+    height: 50px;
+    border-radius: 50%; /* Makes it a circle */
+    cursor: pointer; /* Makes the mouse turn into a pointer */
+    transition: transform 0.2s ease;
+    display: block; /* Gives it its own line */
+    margin: 10px auto; /* Centers it in the footer */
+}
+
+/* Adds a little "pop" effect on hover */
+#toto-button:hover {
+    transform: scale(1.1);
+}
