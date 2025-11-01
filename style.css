@@ -137,3 +137,52 @@ nav ul li a.active {
 .copy-btn:hover {
     background-color: #ddd;
 }
+
+/* --- Project Page Styles --- */
+
+/* This is the new category block */
+.project-category-block {
+    background-color: #fdfdfd; /* A very light background */
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    padding: 25px;
+    margin-top: 25px; /* Spaces out the "Personal" and "Academic" blocks */
+}
+
+.projects-container {
+    display: grid; 
+    grid-template-columns: 1fr;
+    gap: 0; /* No gap between project "cards" */
+}
+
+/* This styles the project entries *inside* the block */
+.project-card {
+    background-color: transparent; /* Makes it blend in */
+    border: none;
+    border-radius: 0;
+    padding: 0; /* Padding will be handled by the line */
+    box-shadow: none;
+}
+
+/* This adds the line separator */
+.projects-container .project-card + .project-card {
+    border-top: 1px solid #e0e0e0; /* The line separator */
+    padding-top: 20px; /* Space above the line */
+    margin-top: 20px; /* Space below the line */
+}
+
+/* Style for the "View Source Code" button */
+.button {
+    display: inline-block;
+    background-color: #333;
+    color: #ffffff;
+    padding: 10px 15px;
+    text-decoration: none;
+    border-radius: 5px;
+    font-weight: bold;
+    transition: background-color 0.3s;
+}
+
+.button:hover {
+    background-color: #17a2b8; /* Same highlight color as nav */
+}
