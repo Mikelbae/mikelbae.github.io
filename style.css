@@ -6,11 +6,10 @@ body {
     margin: 0;
     padding: 0;
 
-    /* --- ADD THESE LINES --- */
-    background-image: url('ghost.jpg'); /* The name of your image */
-    background-size: cover; /* Makes the image cover the whole screen */
-    background-position: center; /* Centers the image */
-    background-attachment: fixed; /* Keeps the image still when you scroll */
+    background-image: url('ghost.jpg');
+    background-size: cover; 
+    background-position: center; 
+    background-attachment: fixed; 
 }
 
 main {
