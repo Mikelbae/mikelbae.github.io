@@ -122,3 +122,18 @@ nav ul li a.active {
         transform: translateY(110vh); /* Falls 110% of the screen height */
     }
 }
+
+/* --- Small Copy Button Style --- */
+.copy-btn {
+    margin-left: 10px;
+    padding: 3px 8px;
+    font-size: 0.8em;
+    background-color: #eee;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.copy-btn:hover {
+    background-color: #ddd;
+}
