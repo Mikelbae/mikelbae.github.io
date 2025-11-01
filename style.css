@@ -13,12 +13,13 @@ body {
 }
 
 main {
-    max-width: 900px; /* Set a max width for content */
-    margin: 20px auto; /* Center the main content */
+    max-width: 900px;
+    margin: 20px auto;
     padding: 20px;
-    background-color: #ffffff;
+    background-color: rgba(255, 255, 255, 0.85); 
     border-radius: 8px;
     box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    transition: background-color 0.3s ease; 
 }
 
 footer {
@@ -68,4 +69,14 @@ nav ul li a {
 /* Style for links on hover */
 nav ul li a:hover {
     color: #17a2b8; /* A nice highlight color */
+}
+
+/* Makes the content box opaque on hover */
+main:hover {
+    background-color: #ffffff; /* 100% opaque white */
+}
+
+/* Styles the "active" page link in the nav */
+nav ul li a.active {
+    color: orange;
 }
