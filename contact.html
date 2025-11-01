@@ -29,7 +29,10 @@
             <li><a href="https://github.com/Mikelbae" target="_blank" rel="noopener noreferrer">My GitHub Profile</a></li>
             <li><a href="https://www.linkedin.com/in/michael-de-greeve-10026927a" target="_blank" rel="noopener noreferrer">My LinkedIn Profile</a></li>
 
-            <li>Business Email: <a href="mailto:mrdegreeve@gmail.com">mrdegreeve@gmail.com</a></li>
+            <li>
+                Email: mrdegreeve@gmail.com
+                <button id="copy-email-btn" class="copy-btn">Copy</button>
+            </li>
             <li>Phone: +27 79 936 6631</li>
         </ul>
         </main>
@@ -37,5 +40,29 @@
     <footer>
         <p>&copy; 2025 Michael de Greeve. Built with GitHub Pages.</p>
     </footer>
+
+    <script>
+        // Find the button on the page
+        const copyBtn = document.getElementById('copy-email-btn');
+    
+        copyBtn.addEventListener('click', () => {
+            // The email address you want to copy
+            const emailToCopy = 'your.email@example.com'; 
+    
+            // The modern way to copy to clipboard
+            navigator.clipboard.writeText(emailToCopy)
+                .then(() => {
+                    // Give user feedback
+                    copyBtn.innerText = 'Copied!';
+                    // Change it back to "Copy" after 2 seconds
+                    setTimeout(() => {
+                        copyBtn.innerText = 'Copy';
+                    }, 2000);
+                })
+                .catch(err => {
+                    console.error('Failed to copy: ', err);
+                });
+        });
+    </script>
 </body>
 </html>
