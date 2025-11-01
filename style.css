@@ -2,10 +2,15 @@
 body {
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
     line-height: 1.6;
-    background-color: #f4f4f4;
     color: #333;
     margin: 0;
     padding: 0;
+
+    /* --- ADD THESE LINES --- */
+    background-image: url('ghost.jpg'); /* The name of your image */
+    background-size: cover; /* Makes the image cover the whole screen */
+    background-position: center; /* Centers the image */
+    background-attachment: fixed; /* Keeps the image still when you scroll */
 }
 
 main {
