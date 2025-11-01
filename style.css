@@ -83,16 +83,37 @@ nav ul li a.active {
 
 /* --- Toto Button Styles --- */
 #toto-button {
-    width: 50px; /* Makes the image small */
+    width: 50px; 
     height: 50px;
-    border-radius: 50%; /* Makes it a circle */
-    cursor: pointer; /* Makes the mouse turn into a pointer */
+    border-radius: 50%; /* Circle */
+    cursor: pointer; 
     transition: transform 0.2s ease;
-    display: block; /* Gives it its own line */
-    margin: 10px auto; /* Centers it in the footer */
+    display: block; 
+    margin: 10px auto; /* Centered in footer */
 }
 
-/* Adds a little "pop" effect on hover */
 #toto-button:hover {
     transform: scale(1.1);
+}
+
+/* --- Digital Rain Styles --- */
+.rain-digit {
+    position: fixed; /* Lets it fall over everything */
+    top: -20px; /* Starts just off-screen */
+    font-family: monospace;
+    font-size: 1.2em;
+    color: #00ff00; /* Bright green */
+    user-select: none; /* Can't highlight the text */
+    animation-name: fall;
+    animation-timing-function: linear;
+}
+
+/* The animation that makes it fall */
+@keyframes fall {
+    from {
+        transform: translateY(0vh);
+    }
+    to {
+        transform: translateY(110vh); /* Falls 110% of the screen height */
+    }
 }
