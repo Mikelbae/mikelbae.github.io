@@ -1,80 +1,74 @@
 document.addEventListener('DOMContentLoaded', () => {
 
-    // --- INTRO SOUND SEQUENCER ---
+    // =========================================
+    // 1. CINEMATIC INTRO SEQUENCER
+    // =========================================
+    const startButton = document.getElementById('start-button');
     const tvSound = document.getElementById('tv-on-sound');
     const scarySound = document.getElementById('scary-sound');
 
-    // 1. Play TV turn-on immediately (0.5s mark in our timeline)
-    if (tvSound) {
-        setTimeout(() => {
-             tvSound.volume = 0.4;
-             tvSound.play().catch(e => console.log("Autoplay prevented:", e));
-        }, 500);
+    if (startButton) {
+        startButton.addEventListener('click', () => {
+            // A. Start visual animations by adding class to body
+            document.body.classList.add('animate-intro');
+
+            // B. Play Scary Sound immediately (matches name reveal animation)
+            if (scarySound) {
+                scarySound.volume = 0.6; // Adjust volume if needed
+                scarySound.play().catch(e => console.log("Audio play failed:", e));
+            }
+
+            // C. Schedule TV Flash sound for 5 seconds later (matches CSS flash timing)
+            if (tvSound) {
+                setTimeout(() => {
+                    tvSound.volume = 0.4;
+                    tvSound.play().catch(e => console.log("Audio play failed:", e));
+                }, 5000);
+            }
+        });
     }
 
-    // 2. Play Scary Movie sound at 2.5 seconds
-    if (scarySound) {
-        setTimeout(() => {
-            scarySound.volume = 0.6; // Adjust volume as needed
-            scarySound.play().catch(e => console.log("Autoplay prevented:", e));
-        }, 2500);
-    }
+    // =========================================
+    // 2. TOTO WOLFF EASTER EGG
+    // =========================================
 
-    // Get all the HTML elements we need for Toto effect
+    // Get elements
     const totoButton = document.getElementById('toto-button');
     const totoAudio = document.getElementById('toto-audio');
     const rainAudio = document.getElementById('rain-audio');
 
-    // This is our "on/off" switch
+    // State variables
     let isRaining = false;
-    
-    // This variable will hold our 'setInterval' function so we can stop it later
     let rainInterval;
     
-    // Variables for DVD screensaver effect
-    let posX = 0;       // Current X position
-    let posY = 0;       // Current Y position
-    let velocityX = 1;  // Speed and direction on X axis
-    let velocityY = 1;  // Speed and direction on Y axis
-    let animationFrameId; // To control the animation loop
-    
-    // This function creates one falling digit
+    // Movement variables (DVD screensaver effect)
+    let posX = 0, posY = 0;
+    let velocityX = 1, velocityY = 1;
+    let animationFrameId;
+
+    // --- Helper Function: Create Digital Rain ---
     function createRainDigit() {
         const digit = document.createElement('span');
         digit.classList.add('rain-digit');
-        
-        // Set its text to a 0 or 1
         digit.innerText = Math.random() < 0.5 ? '0' : '1';
-        
-        // Start it at a random horizontal position
         digit.style.left = Math.random() * 100 + 'vw';
-        
-        // Give it a random fall speed (3 to 5 seconds)
         digit.style.animationDuration = (Math.random() * 2 + 3) + 's';
-        
-        // Add the new digit to the page
         document.body.appendChild(digit);
-        
-        // Remove the digit after 5 seconds (when it's off-screen)
-        setTimeout(() => {
-            digit.remove();
-        }, 5000);
+
+        // Self-destruct after 5 seconds
+        setTimeout(() => digit.remove(), 5000);
     }
 
-    // This function removes all digits from the screen
+    // --- Helper Function: Clean Up Rain ---
     function stopRainEffect() {
-        // Stop creating new digits
         clearInterval(rainInterval);
-        
-        // Find all digits currently on the page
-        const allDigits = document.querySelectorAll('.rain-digit');
-        
-        // Remove each one
-        allDigits.forEach(digit => digit.remove());
+        document.querySelectorAll('.rain-digit').forEach(digit => digit.remove());
     }
 
-    // --- DVD Screensaver Animation Function ---
+    // --- Main Animation Loop (DVD Effect) ---
     function animateTotoButton() {
+        if (!totoButton) return;
+
         const buttonWidth = totoButton.offsetWidth;
         const buttonHeight = totoButton.offsetHeight;
         const screenWidth = window.innerWidth;
@@ -86,14 +80,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // Bounce off horizontal walls
         if (posX + buttonWidth > screenWidth || posX < 0) {
-            velocityX *= -1; // Reverse X direction
+            velocityX *= -1;
             if (posX < 0) posX = 0;
             if (posX + buttonWidth > screenWidth) posX = screenWidth - buttonWidth;
         }
 
         // Bounce off vertical walls
         if (posY + buttonHeight > screenHeight || posY < 0) {
-            velocityY *= -1; // Reverse Y direction
+            velocityY *= -1;
             if (posY < 0) posY = 0;
             if (posY + buttonHeight > screenHeight) posY = screenHeight - buttonHeight;
         }
@@ -102,61 +96,54 @@ document.addEventListener('DOMContentLoaded', () => {
         totoButton.style.left = `${posX}px`;
         totoButton.style.top = `${posY}px`;
 
-        // Continue the animation loop if raining
+        // Continue loop if active
         if (isRaining) {
             animationFrameId = requestAnimationFrame(animateTotoButton);
         }
     }
 
-    // Listen for a mouse down (press) on the Toto button
-    totoButton.addEventListener('mousedown', () => {
-        
-        if (isRaining === false) {
-            // --- START THE EFFECT ---
-            
-            totoAudio.currentTime = 0;
-            totoAudio.play();
-            
-            rainAudio.play();
-            
-            rainInterval = setInterval(createRainDigit, 100);
-            
-            isRaining = true;
+    // --- Event Listener: Toggle Effect on Click (mousedown) ---
+    if (totoButton) {
+        totoButton.addEventListener('mousedown', () => {
+            if (!isRaining) {
+                // === START EFFECT ===
+                isRaining = true;
 
-            // --- START LOGIC ---
-            // Get the button's current position *before* making it fixed
-            const rect = totoButton.getBoundingClientRect();
-            posX = rect.left;
-            posY = rect.top;
+                // Play sounds
+                totoAudio.currentTime = 0;
+                totoAudio.play();
+                rainAudio.play();
 
-            // Add the class to make it 'position: fixed'
-            totoButton.classList.add('toto-moving');
-            
-            // Start the animation
-            animationFrameId = requestAnimationFrame(animateTotoButton);
+                // Start rain
+                rainInterval = setInterval(createRainDigit, 100);
 
-        } else {
-            // --- STOP THE EFFECT ---
-            
-            totoAudio.pause();
-            rainAudio.pause();
-            rainAudio.currentTime = 0;
-            
-            stopRainEffect();
-            
-            isRaining = false;
+                // Capture current position and switch to fixed mode
+                const rect = totoButton.getBoundingClientRect();
+                posX = rect.left;
+                posY = rect.top;
+                totoButton.classList.add('toto-moving');
 
-            // Stop the animation
-            cancelAnimationFrame(animationFrameId);
-            
-            // --- STOP LOGIC ---
-            // Remove the moving class
-            totoButton.classList.remove('toto-moving');
-            
-            // Remove the inline styles so it snaps back to the footer
-            totoButton.style.left = '';
-            totoButton.style.top = '';
-        }
-    });
+                // Start movement loop
+                animationFrameId = requestAnimationFrame(animateTotoButton);
 
+            } else {
+                // === STOP EFFECT ===
+                isRaining = false;
+
+                // Stop sounds
+                totoAudio.pause();
+                rainAudio.pause();
+                rainAudio.currentTime = 0;
+
+                // Stop rain and movement
+                stopRainEffect();
+                cancelAnimationFrame(animationFrameId);
+
+                // Reset button to footer position
+                totoButton.classList.remove('toto-moving');
+                totoButton.style.left = '';
+                totoButton.style.top = '';
+            }
+        });
+    }
 });

@@ -5,28 +5,34 @@ body {
     color: #333;
     margin: 0;
     padding: 0;
-
+    /* Background Image */
     background-image: url('../images/ghostface.png');
-    background-size: cover; 
-    background-position: center; 
-    background-attachment: fixed; 
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
 }
 
 main {
     max-width: 900px;
     margin: 20px auto;
     padding: 20px;
-    background-color: rgba(255, 255, 255, 0.85); 
+    background-color: rgba(255, 255, 255, 0.85); /* 85% opaque white */
     border-radius: 8px;
     box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-    transition: background-color 0.3s ease; 
+    transition: background-color 0.3s ease;
+}
+
+main:hover {
+    background-color: #ffffff; /* 100% opaque on hover */
 }
 
 footer {
     text-align: center;
     margin-top: 20px;
     font-size: 0.9em;
-    color: #777;
+    color: #ffffff; /* Made white to be visible on dark backgrounds if needed */
+    text-shadow: 0 1px 3px rgba(0,0,0,0.8); /* Adds shadow for readability */
+    padding-bottom: 20px;
 }
 
 h1, h2 {
@@ -35,11 +41,11 @@ h1, h2 {
 
 /* --- Navigation Bar Styles --- */
 nav {
-    display: flex; /* Use flexbox for layout */
-    justify-content: space-between; /* Space logo and links apart */
-    align-items: center; /* Vertically center them */
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
     background-color: #333;
-    padding: 10px 40px; /* 10px top/bottom, 40px left/right */
+    padding: 10px 40px;
 }
 
 .logo {
@@ -49,129 +55,166 @@ nav {
 }
 
 nav ul {
-    list-style: none; /* Remove bullet points */
-    display: flex; /* Make links horizontal */
+    list-style: none;
+    display: flex;
     margin: 0;
     padding: 0;
 }
 
 nav ul li {
-    margin-left: 20px; /* Add spacing between links */
+    margin-left: 20px;
 }
 
 nav ul li a {
     color: #ffffff;
-    text-decoration: none; /* Remove underline */
+    text-decoration: none;
     font-weight: bold;
     font-size: 1.1em;
+    transition: color 0.3s ease;
 }
 
-/* Style for links on hover */
 nav ul li a:hover {
-    color: #17a2b8; /* A nice highlight color */
+    color: #17a2b8; /* Highlight color */
 }
 
-/* Makes the content box opaque on hover */
-main:hover {
-    background-color: #ffffff; /* 100% opaque white */
-}
-
-/* Styles the "active" page link in the nav */
 nav ul li a.active {
-    color: orange;
+    color: orange; /* Active page color */
 }
 
-#toto-button {
-    width: 80px;
-    height: 80px;
-    border-radius: 50%;
-    cursor: pointer; 
-    transition: transform 0.2s ease;
-    user-select: none;
-    display: block; 
-    margin: 10px auto; 
+/* --- CINEMATIC INTRO (V4 - Click to Start) --- */
+
+/* The Start Screen Container */
+#start-screen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: #000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 200000; /* Highest level */
 }
 
-.toto-moving {
-    position: fixed; /* Lets it move freely */
-    z-index: 1000; /* Ensures it's on top of rain */
-}
-
-#toto-button:hover {
-    transform: scale(1.1);
-}
-
-/* --- Digital Rain Styles --- */
-.rain-digit {
-    position: fixed; /* Lets it fall over everything */
-    top: -20px; /* Starts just off-screen */
-    font-family: monospace;
+/* The "ENTER" button */
+#start-button {
+    padding: 15px 30px;
     font-size: 1.2em;
-    color: #00ff00; /* Bright green */
-    user-select: none; /* Can't highlight the text */
-    animation-name: fall;
-    animation-timing-function: linear;
-}
-
-/* The animation that makes it fall */
-@keyframes fall {
-    from {
-        transform: translateY(0vh);
-    }
-    to {
-        transform: translateY(110vh); /* Falls 110% of the screen height */
-    }
-}
-
-/* --- Small Copy Button Style --- */
-.copy-btn {
-    margin-left: 10px;
-    padding: 3px 8px;
-    font-size: 0.8em;
-    background-color: #eee;
-    border: 1px solid #ccc;
-    border-radius: 4px;
+    letter-spacing: 3px;
+    color: #fff;
+    background: transparent;
+    border: 2px solid #fff;
     cursor: pointer;
+    transition: all 0.3s ease;
 }
 
-.copy-btn:hover {
-    background-color: #ddd;
+#start-button:hover {
+    background: #fff;
+    color: #000;
+}
+
+/* --- ANIMATION ELEMENTS (Initially Paused) --- */
+
+#tv-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: #000;
+    z-index: 99999;
+    opacity: 0; /* Hidden until start */
+    pointer-events: none;
+}
+
+#intro-name-img {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 100000;
+    width: 80%;
+    max-width: 600px;
+    opacity: 0; /* Hidden until start */
+    pointer-events: none;
+}
+
+#page-content {
+    opacity: 0; /* Hidden until start */
+}
+
+/* --- ACTIVE ANIMATION CLASSES (Added by JS) --- */
+
+/* When this class is added to body, animations start */
+body.animate-intro #start-screen {
+    display: none; /* Hide start button immediately */
+}
+
+body.animate-intro #tv-overlay {
+    animation: overlaySequence 6.5s ease-out forwards;
+}
+
+body.animate-intro #intro-name-img {
+    animation: nameRevealSequence 4s ease-in-out forwards;
+    animation-delay: 0.5s; /* Start revealing name quickly after click */
+}
+
+body.animate-intro #page-content {
+    animation: contentFadeIn 2s ease-out forwards;
+    animation-delay: 6.0s;
+}
+
+/* Keyframes for Intro */
+@keyframes overlaySequence {
+    0% { background: #000; opacity: 1; }
+    75% { background: #000; opacity: 1; } /* Black until ~4.8s */
+    78% { background: #fff; opacity: 1; } /* FLASH WHITE at ~5s */
+    100% { background: #fff; opacity: 0; visibility: hidden; }
+}
+
+@keyframes nameRevealSequence {
+    0% { opacity: 0; }
+    30% { opacity: 1; }
+    70% { opacity: 1; }
+    100% { opacity: 0; }
+}
+
+@keyframes contentFadeIn {
+    to { opacity: 1; }
 }
 
 /* --- Project Page Styles --- */
-
-/* This is the new category block */
 .project-category-block {
-    background-color: #fdfdfd; /* A very light background */
+    background-color: #fdfdfd;
     border: 1px solid #e0e0e0;
     border-radius: 8px;
     padding: 25px;
-    margin-top: 25px; /* Spaces out the "Personal" and "Academic" blocks */
+    margin-top: 25px;
 }
 
 .projects-container {
-    display: grid; 
+    display: grid;
     grid-template-columns: 1fr;
-    gap: 0; /* No gap between project "cards" */
+    gap: 0;
 }
 
-/* This styles the project entries *inside* the block */
 .project-card {
-    background-color: transparent; /* Makes it blend in */
+    background-color: transparent;
     border: none;
     border-radius: 0;
-    padding: 0; /* Padding will be handled by the line */
+    padding: 0;
     box-shadow: none;
 }
 
-/* This adds the line separator */
+/* Line separator for projects */
 .projects-container .project-card + .project-card {
-    border-top: 1px solid #e0e0e0; /* The line separator */
-    padding-top: 20px; /* Space above the line */
-    margin-top: 20px; /* Space below the line */
+    border-top: 1px solid #e0e0e0;
+    padding-top: 20px;
+    margin-top: 20px;
 }
 
-/* Style for the "View Source Code" button */
+/* "View Source Code" Button Style */
 .button {
     display: inline-block;
     background-color: #333;
@@ -184,100 +227,96 @@ nav ul li a.active {
 }
 
 .button:hover {
-    background-color: #17a2b8; /* Same highlight color as nav */
+    background-color: #17a2b8;
 }
 
-/* --- UNDER CONSTRUCTION PAGE STYLES --- */
-
-/* Centers everything on the page */
+/* --- CV "Under Construction" Styles --- */
 .under-construction {
     text-align: center;
     padding: 50px 20px;
 }
 
-/* Creates the black and yellow striped tape effect */
 .tape-container {
     background: repeating-linear-gradient(
         45deg,
-        #FFD700, /* Gold/Yellow color */
+        #FFD700,
         #FFD700 20px,
-        #000000 20px, /* Black color */
+        #000000 20px,
         #000000 40px
     );
     padding: 20px;
     margin-bottom: 30px;
     border: 2px solid #000;
     box-shadow: 0 4px 8px rgba(0,0,0,0.2);
-    transform: rotate(-2deg); /* Gives it a slight, jaunty angle */
+    transform: rotate(-2deg);
 }
 
-/* Styles the text inside the tape */
 .tape-container h1 {
-    background-color: #000; /* Black background for readability */
-    color: #FFD700; /* Yellow text */
+    background-color: #000;
+    color: #FFD700;
     display: inline-block;
     padding: 10px 30px;
     margin: 0;
     border: 2px solid #FFD700;
-    font-family: monospace; /* Gives it a more industrial look */
+    font-family: monospace;
     font-size: 2.5em;
     letter-spacing: 2px;
 }
 
-/* --- CINEMATIC INTRO ANIMATION --- */
+/* --- Toto Easter Egg Styles --- */
+#toto-button {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: transform 0.2s ease;
+    user-select: none;
+    /* Default footer position */
+    display: block;
+    margin: 10px auto;
+    border: 2px solid #fff; /* Makes it visible against dark backgrounds */
+}
 
-/* 1. The initial black screen & flash */
-#tv-overlay {
+#toto-button:hover {
+    transform: scale(1.1);
+}
+
+/* Class added by JS when clicked to start moving */
+.toto-moving {
     position: fixed;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
-    background: #000; /* Start black */
-    z-index: 99999;
-    animation: tvTurnOnSequence 1.5s ease-out forwards;
-    animation-delay: 0.5s;
+    z-index: 1000;
+    margin: 0; /* Reset margin so JS can position it accurately */
 }
 
-@keyframes tvTurnOnSequence {
-    0% { background: #000; transform: scale(1, 0.01); }
-    20% { background: #fff; transform: scale(1, 1); opacity: 1; } /* Flash White */
-    100% { background: #fff; transform: scale(1, 1); opacity: 0; visibility: hidden; } /* Fade out */
-}
-
-/* 2. Your Name Intro Text */
-#intro-text {
+/* Digital Rain Styles */
+.rain-digit {
     position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    color: #ffffff; /* White text */
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-    font-size: 4em; /* Large clear font */
-    font-weight: bold;
-    text-shadow: 0 2px 10px rgba(0,0,0,0.5); /* Make it pop against background */
-    z-index: 9999;
-    opacity: 0; /* Start hidden */
-    
-    /* Fade In at 2s, Fade Out at 6s */
-    animation: introTextSequence 4s ease-in-out forwards;
-    animation-delay: 2.0s;
+    top: -20px;
+    font-family: monospace;
+    font-size: 1.2em;
+    color: #00ff00;
+    user-select: none;
+    animation-name: fall;
+    animation-timing-function: linear;
+    z-index: 999; /* Behind Toto button but in front of content */
 }
 
-@keyframes introTextSequence {
-    0% { opacity: 0; }
-    20% { opacity: 1; } /* Fully visible by 2.8s (2s delay + 20% of 4s) */
-    80% { opacity: 1; } /* Stays visible until 5.2s */
-    100% { opacity: 0; visibility: hidden; } /* Fades out by 6s */
+@keyframes fall {
+    from { transform: translateY(0vh); }
+    to { transform: translateY(110vh); }
 }
 
-/* 3. Main Content reveals LAST */
-#page-content {
-    opacity: 0;
-    animation: contentFadeIn 2s ease-out forwards;
-    animation-delay: 7.0s; /* Waits until everything else is done */
+/* --- Other Helper Styles --- */
+.copy-btn {
+    margin-left: 10px;
+    padding: 3px 8px;
+    font-size: 0.8em;
+    background-color: #eee;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    cursor: pointer;
 }
 
-@keyframes contentFadeIn {
-    to { opacity: 1; }
+.copy-btn:hover {
+    background-color: #ddd;
 }
