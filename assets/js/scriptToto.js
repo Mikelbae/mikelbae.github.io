@@ -9,21 +9,21 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (startButton) {
         startButton.addEventListener('click', () => {
-            // A. Start visual animations by adding class to body
+            // A. Start visual animations
             document.body.classList.add('animate-intro');
 
-            // B. Play BOTH sounds immediately
-            if (scarySound) {
-                scarySound.volume = 0.6; // Adjust volume if needed
-                scarySound.play().catch(e => console.log("Audio play failed:", e));
+            // B. Play TV Sound IMMEDIATELY (0s)
+            if (tvSound) {
+                tvSound.volume = 0.4;
+                tvSound.play().catch(e => console.log("Audio failed:", e));
             }
 
-            // C. Schedule TV Flash sound for 5 seconds later (matches CSS flash timing)
-            if (tvSound) {
+            // C. Play Scary Sound when name starts appearing (0.5s)
+            if (scarySound) {
                 setTimeout(() => {
-                    tvSound.volume = 0.4;
-                    tvSound.play().catch(e => console.log("Audio play failed:", e));
-                }, 5000); // 5000ms = 5s matches the flash in CSS
+                    scarySound.volume = 0.6;
+                    scarySound.play().catch(e => console.log("Audio failed:", e));
+                }, 500); // 500ms matches the animation-delay of the name image in CSS
             }
         });
     }
