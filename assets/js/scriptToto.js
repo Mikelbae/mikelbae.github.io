@@ -12,7 +12,7 @@ document.addEventListener('DOMContentLoaded', () => {
             // A. Start visual animations by adding class to body
             document.body.classList.add('animate-intro');
 
-            // B. Play Scary Sound immediately (matches name reveal animation)
+            // B. Play BOTH sounds immediately
             if (scarySound) {
                 scarySound.volume = 0.6; // Adjust volume if needed
                 scarySound.play().catch(e => console.log("Audio play failed:", e));
@@ -23,7 +23,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 setTimeout(() => {
                     tvSound.volume = 0.4;
                     tvSound.play().catch(e => console.log("Audio play failed:", e));
-                }, 5000);
+                }, 5000); // 5000ms = 5s matches the flash in CSS
             }
         });
     }

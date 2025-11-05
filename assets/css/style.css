@@ -95,6 +95,8 @@ nav ul li a.active {
     justify-content: center;
     align-items: center;
     z-index: 200000; /* Highest level */
+    /* NEW: Smooth fade out transition */
+    transition: opacity 1.5s ease-out, visibility 1.5s linear;
 }
 
 /* The "ENTER" button */
@@ -149,7 +151,8 @@ nav ul li a.active {
 /* --- ACTIVE ANIMATION CLASSES (Added by JS) --- */
 
 body.animate-intro #start-screen {
-    display: none; /* Click -> Black screen GONE instantly */
+    opacity: 0;
+    visibility: hidden;
 }
 
 body.animate-intro #tv-overlay {
