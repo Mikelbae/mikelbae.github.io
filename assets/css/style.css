@@ -223,3 +223,57 @@ nav ul li a.active {
     font-size: 2.5em;
     letter-spacing: 2px;
 }
+
+/* --- TV Turn-On Animation --- */
+
+/* The black screen overlay */
+#tv-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: #000;
+    z-index: 99999; /* Ensures it's on top of EVERYTHING */
+    animation: tvTurnOn 1.2s ease-out forwards;
+    animation-delay: 0.5s; /* Wait half a second before turning on */
+}
+
+/* The actual animation keyframes */
+@keyframes tvTurnOn {
+    0% {
+        transform: scale(1, 0.001); /* Start as a thin horizontal line */
+        opacity: 1;
+        background: #fff; /* Flash white initially */
+    }
+    50% {
+        transform: scale(1, 0.005); /* Stays as a line for a moment */
+        opacity: 1;
+        background: #fff;
+    }
+    70% {
+        transform: scale(1, 1); /* Expands vertically to full screen */
+        background: #fff; /* Still flashing white */
+        opacity: 1;
+    }
+    100% {
+        transform: scale(1, 1);
+        background: transparent; /* Becomes see-through to show Ghostface */
+        opacity: 0; /* Fades out completely */
+        visibility: hidden; /* Stops it from blocking clicks after it's done */
+    }
+}
+
+/* Hide the main content initially, then fade it in */
+#page-content {
+    opacity: 0; /* Start hidden */
+    animation: fadeInContent 1.5s ease-out forwards;
+    /* Wait 2.5s total (0.5s delay + 1.2s TV animation + roughly 0.8s pause) */
+    animation-delay: 2.5s;
+}
+
+@keyframes fadeInContent {
+    to {
+        opacity: 1; /* Fade up to full visibility */
+    }
+}
