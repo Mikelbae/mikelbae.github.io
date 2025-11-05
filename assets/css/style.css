@@ -81,9 +81,9 @@ nav ul li a.active {
     color: orange; /* Active page color */
 }
 
-/* --- CINEMATIC INTRO (V4 - Click to Start) --- */
+/* --- CINEMATIC INTRO (V5 - Ghostface First) --- */
 
-/* The Start Screen Container */
+/* The Start Screen Container (Black, covers everything initially) */
 #start-screen {
     position: fixed;
     top: 0;
@@ -114,26 +114,28 @@ nav ul li a.active {
     color: #000;
 }
 
-/* --- ANIMATION ELEMENTS (Initially Paused) --- */
+/* --- ANIMATION ELEMENTS --- */
 
+/* The Flash Overlay - Starts INVISIBLE now */
 #tv-overlay {
     position: fixed;
     top: 0;
     left: 0;
     width: 100vw;
     height: 100vh;
-    background: #000;
-    z-index: 99999;
-    opacity: 0; /* Hidden until start */
+    background: #fff; /* It will be a white flash */
+    z-index: 100001; /* Above the name image */
+    opacity: 0; /* Hidden initially so we see Ghostface */
     pointer-events: none;
 }
 
+/* Your Name Image */
 #intro-name-img {
     position: fixed;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    z-index: 100000;
+    z-index: 100000; /* Below the flash overlay */
     width: 80%;
     max-width: 600px;
     opacity: 0; /* Hidden until start */
@@ -146,9 +148,8 @@ nav ul li a.active {
 
 /* --- ACTIVE ANIMATION CLASSES (Added by JS) --- */
 
-/* When this class is added to body, animations start */
 body.animate-intro #start-screen {
-    display: none; /* Hide start button immediately */
+    display: none; /* Click -> Black screen GONE instantly */
 }
 
 body.animate-intro #tv-overlay {
@@ -156,8 +157,9 @@ body.animate-intro #tv-overlay {
 }
 
 body.animate-intro #intro-name-img {
+    /* Starts fading in quickly over the Ghostface background */
     animation: nameRevealSequence 4s ease-in-out forwards;
-    animation-delay: 0.5s; /* Start revealing name quickly after click */
+    animation-delay: 0.5s;
 }
 
 body.animate-intro #page-content {
@@ -165,19 +167,19 @@ body.animate-intro #page-content {
     animation-delay: 6.0s;
 }
 
-/* Keyframes for Intro */
+/* Keyframes */
 @keyframes overlaySequence {
-    0% { background: #000; opacity: 1; }
-    75% { background: #000; opacity: 1; } /* Black until ~4.8s */
-    78% { background: #fff; opacity: 1; } /* FLASH WHITE at ~5s */
-    100% { background: #fff; opacity: 0; visibility: hidden; }
+    0% { opacity: 0; }
+    75% { opacity: 0; } /* Stay invisible (showing Ghostface) for ~5s */
+    77% { opacity: 1; } /* QUICK WHITE FLASH at 5s mark */
+    100% { opacity: 0; visibility: hidden; } /* Fade out to show content */
 }
 
 @keyframes nameRevealSequence {
     0% { opacity: 0; }
-    30% { opacity: 1; }
-    70% { opacity: 1; }
-    100% { opacity: 0; }
+    30% { opacity: 1; } /* Fade in */
+    70% { opacity: 1; } /* Hold */
+    100% { opacity: 0; } /* Fade out before flash */
 }
 
 @keyframes contentFadeIn {
