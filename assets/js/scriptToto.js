@@ -1,6 +1,14 @@
 document.addEventListener('DOMContentLoaded', () => {
 
-    // Get all the HTML elements we need
+    // --- Play TV Turn-On Sound ---
+    const tvSound = document.getElementById('tv-on-sound');
+    if (tvSound) {
+            tvSound.volume = 0.4; 
+            tvSound.play().catch(e => console.log("Autoplay prevented by browser:", e));
+       
+    }
+
+    // Get all the HTML elements we need for Toto effect
     const totoButton = document.getElementById('toto-button');
     const totoAudio = document.getElementById('toto-audio');
     const rainAudio = document.getElementById('rain-audio');
