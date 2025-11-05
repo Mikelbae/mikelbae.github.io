@@ -186,3 +186,40 @@ nav ul li a.active {
 .button:hover {
     background-color: #17a2b8; /* Same highlight color as nav */
 }
+
+/* --- UNDER CONSTRUCTION PAGE STYLES --- */
+
+/* Centers everything on the page */
+.under-construction {
+    text-align: center;
+    padding: 50px 20px;
+}
+
+/* Creates the black and yellow striped tape effect */
+.tape-container {
+    background: repeating-linear-gradient(
+        45deg,
+        #FFD700, /* Gold/Yellow color */
+        #FFD700 20px,
+        #000000 20px, /* Black color */
+        #000000 40px
+    );
+    padding: 20px;
+    margin-bottom: 30px;
+    border: 2px solid #000;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+    transform: rotate(-2deg); /* Gives it a slight, jaunty angle */
+}
+
+/* Styles the text inside the tape */
+.tape-container h1 {
+    background-color: #000; /* Black background for readability */
+    color: #FFD700; /* Yellow text */
+    display: inline-block;
+    padding: 10px 30px;
+    margin: 0;
+    border: 2px solid #FFD700;
+    font-family: monospace; /* Gives it a more industrial look */
+    font-size: 2.5em;
+    letter-spacing: 2px;
+}
