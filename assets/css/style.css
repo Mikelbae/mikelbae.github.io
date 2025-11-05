@@ -226,54 +226,52 @@ nav ul li a.active {
 
 /* --- TV Turn-On Animation --- */
 
-/* The black screen overlay */
+/* The overlay that creates the flash effect */
 #tv-overlay {
     position: fixed;
     top: 0;
     left: 0;
     width: 100vw;
     height: 100vh;
-    background: #000;
-    z-index: 99999; /* Ensures it's on top of EVERYTHING */
-    animation: tvTurnOn 1.2s ease-out forwards;
-    animation-delay: 0.5s; /* Wait half a second before turning on */
+    background: #fff; /* Start as a bright white flash */
+    z-index: 9999; /* On top of everything */
+    
+    /* Start hidden, then flash */
+    opacity: 0; 
+    pointer-events: none; /* Lets clicks pass through even when it's there */
+    
+    /* The flash animation */
+    animation: tvFlash 0.8s ease-out forwards;
+    animation-delay: 0.5s; /* Wait 0.5s before flashing */
 }
 
-/* The actual animation keyframes */
-@keyframes tvTurnOn {
+@keyframes tvFlash {
     0% {
-        transform: scale(1, 0.001); /* Start as a thin horizontal line */
-        opacity: 1;
-        background: #fff; /* Flash white initially */
+        opacity: 0;
+        transform: scaleY(0.01); /* Start as a thin horizontal line */
     }
     50% {
-        transform: scale(1, 0.005); /* Stays as a line for a moment */
-        opacity: 1;
-        background: #fff;
-    }
-    70% {
-        transform: scale(1, 1); /* Expands vertically to full screen */
-        background: #fff; /* Still flashing white */
-        opacity: 1;
+        opacity: 1; /* Full bright flash */
+        transform: scaleY(1); /* Expand to full screen */
     }
     100% {
-        transform: scale(1, 1);
-        background: transparent; /* Becomes see-through to show Ghostface */
-        opacity: 0; /* Fades out completely */
-        visibility: hidden; /* Stops it from blocking clicks after it's done */
+        opacity: 0; /* Fade out completely */
+        transform: scaleY(1);
     }
 }
 
-/* Hide the main content initially, then fade it in */
+/* The main content wrapper */
 #page-content {
-    opacity: 0; /* Start hidden */
-    animation: fadeInContent 1.5s ease-out forwards;
-    /* Wait 2.5s total (0.5s delay + 1.2s TV animation + roughly 0.8s pause) */
-    animation-delay: 2.5s;
+    /* Start completely hidden */
+    opacity: 0;
+    
+    /* Fade in AS the flash is fading out */
+    animation: contentFadeIn 1s ease-out forwards;
+    animation-delay: 1.0s; /* Starts just after the flash reaches peak brightness */
 }
 
-@keyframes fadeInContent {
+@keyframes contentFadeIn {
     to {
-        opacity: 1; /* Fade up to full visibility */
+        opacity: 1;
     }
 }
