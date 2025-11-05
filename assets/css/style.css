@@ -224,54 +224,60 @@ nav ul li a.active {
     letter-spacing: 2px;
 }
 
-/* --- TV Turn-On Animation --- */
+/* --- CINEMATIC INTRO ANIMATION --- */
 
-/* The overlay that creates the flash effect */
+/* 1. The initial black screen & flash */
 #tv-overlay {
     position: fixed;
     top: 0;
     left: 0;
     width: 100vw;
     height: 100vh;
-    background: #fff; /* Start as a bright white flash */
-    z-index: 9999; /* On top of everything */
-    
-    /* Start hidden, then flash */
-    opacity: 0; 
-    pointer-events: none; /* Lets clicks pass through even when it's there */
-    
-    /* The flash animation */
-    animation: tvFlash 0.8s ease-out forwards;
-    animation-delay: 0.5s; /* Wait 0.5s before flashing */
+    background: #000; /* Start black */
+    z-index: 99999;
+    animation: tvTurnOnSequence 1.5s ease-out forwards;
+    animation-delay: 0.5s;
 }
 
-@keyframes tvFlash {
-    0% {
-        opacity: 0;
-        transform: scaleY(0.01); /* Start as a thin horizontal line */
-    }
-    50% {
-        opacity: 1; /* Full bright flash */
-        transform: scaleY(1); /* Expand to full screen */
-    }
-    100% {
-        opacity: 0; /* Fade out completely */
-        transform: scaleY(1);
-    }
+@keyframes tvTurnOnSequence {
+    0% { background: #000; transform: scale(1, 0.01); }
+    20% { background: #fff; transform: scale(1, 1); opacity: 1; } /* Flash White */
+    100% { background: #fff; transform: scale(1, 1); opacity: 0; visibility: hidden; } /* Fade out */
 }
 
-/* The main content wrapper */
+/* 2. Your Name Intro Text */
+#intro-text {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: #ffffff; /* White text */
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    font-size: 4em; /* Large clear font */
+    font-weight: bold;
+    text-shadow: 0 2px 10px rgba(0,0,0,0.5); /* Make it pop against background */
+    z-index: 9999;
+    opacity: 0; /* Start hidden */
+    
+    /* Fade In at 2s, Fade Out at 6s */
+    animation: introTextSequence 4s ease-in-out forwards;
+    animation-delay: 2.0s;
+}
+
+@keyframes introTextSequence {
+    0% { opacity: 0; }
+    20% { opacity: 1; } /* Fully visible by 2.8s (2s delay + 20% of 4s) */
+    80% { opacity: 1; } /* Stays visible until 5.2s */
+    100% { opacity: 0; visibility: hidden; } /* Fades out by 6s */
+}
+
+/* 3. Main Content reveals LAST */
 #page-content {
-    /* Start completely hidden */
     opacity: 0;
-    
-    /* Fade in AS the flash is fading out */
-    animation: contentFadeIn 1s ease-out forwards;
-    animation-delay: 1.0s; /* Starts just after the flash reaches peak brightness */
+    animation: contentFadeIn 2s ease-out forwards;
+    animation-delay: 7.0s; /* Waits until everything else is done */
 }
 
 @keyframes contentFadeIn {
-    to {
-        opacity: 1;
-    }
+    to { opacity: 1; }
 }

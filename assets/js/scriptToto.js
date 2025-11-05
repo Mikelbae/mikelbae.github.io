@@ -1,11 +1,23 @@
 document.addEventListener('DOMContentLoaded', () => {
 
-    // --- Play TV Turn-On Sound ---
+    // --- INTRO SOUND SEQUENCER ---
     const tvSound = document.getElementById('tv-on-sound');
+    const scarySound = document.getElementById('scary-sound');
+
+    // 1. Play TV turn-on immediately (0.5s mark in our timeline)
     if (tvSound) {
-            tvSound.volume = 0.4; 
-            tvSound.play().catch(e => console.log("Autoplay prevented by browser:", e));
-       
+        setTimeout(() => {
+             tvSound.volume = 0.4;
+             tvSound.play().catch(e => console.log("Autoplay prevented:", e));
+        }, 500);
+    }
+
+    // 2. Play Scary Movie sound at 2.5 seconds
+    if (scarySound) {
+        setTimeout(() => {
+            scarySound.volume = 0.6; // Adjust volume as needed
+            scarySound.play().catch(e => console.log("Autoplay prevented:", e));
+        }, 2500);
     }
 
     // Get all the HTML elements we need for Toto effect
