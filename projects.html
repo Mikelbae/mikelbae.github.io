@@ -70,13 +70,24 @@
             <div class="project-card">
                 <h2>Line-Following Autonomous Vehicle (MARV)</h2>
                 <p>
-                    A robotic vehicle programmed to autonomously navigate a predefined path 
-                    by following a black line using infrared sensors and a PID control algorithm.
-                </p> <p><strong>Technologies used:</strong> [e.g., C++, Arduino, PID Control, Infrared Sensors]</p>
-                <div class="project-links">
-                    <a href="[LINK TO REPO]" target="_blank" rel="noopener noreferrer" class="button">View Source Code</a>
+                    An autonomous robot designed from scratch to navigate complex tracks by following specific colored lines (red, green, blue, or black), even when paths overlapped.
+                </p>
+                
+                <h3>Key Features & Hardware</h3>
+                <ul>
+                    <li><strong>Custom Sensor Array:</strong> Designed and built a 5-phototransistor array with RGB LEDs to detect color based on reflected voltage levels (ADC).</li>
+                    <li><strong>Full Hardware Build:</strong> Designed the PCB, modeled and 3D-printed the custom chassis, and integrated N20 motors with an H-bridge for precise PWM control.</li>
+                    <li><strong>Assembly Programming:</strong> Entire control logic and sensor processing were written in low-level Assembly for the PIC18F45K22 microcontroller.</li>
+                </ul>
+
+                <h3>My Technical Contributions</h3>
+                <p>
+                    I co-developed the core navigation logic in Assembly, translating raw ADC sensor data into motor control signals. I also implemented UART communication to debug and display real-time data about the car's vision state and driving decisions.
+                </p>
+
+                <p><strong>Technologies used:</strong> Assembly Language, PIC18F45K22 Microcontroller, PCB Design, 3D Printing, UART, ADC, PWM</p>
+                
                 </div>
-            </div>
 
             <div class="project-card">
                 <h2>Maze-Solving Autonomous Vehicle (MARV)</h2>
