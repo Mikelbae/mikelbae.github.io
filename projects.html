@@ -90,16 +90,27 @@
                 </div>
 
             <div class="project-card">
-                <h2>Maze-Solving Autonomous Vehicle (MARV)</h2>
+                <h2>Maze-Navigating Autonomous Vehicle (MARV)</h2>
                 <p>
-                    An advanced autonomous robot that used ultrasonic sensors and a 
-                    pathfinding algorithm to navigate, map, and solve an unknown maze.
-                </s  <p>
-                <p><strong>Technologies used:</strong> [e.g., C++, Arduino, A* Algorithm, Ultrasonic Sensors]</p>
-                <div class="project-links">
-                    <a href="[LINK TO REPO]" target="_blank" rel="noopener noreferrer" class="button">View Source Code</a>
+                    An advanced autonomous robot powered by an ESP32 that navigated a color-coded maze according to predefined rules, featuring a custom web dashboard for real-time diagnostics.
+                </p>
+                
+                <h3>Key Features & Subsystems</h3>
+                <ul>
+                    <li><strong>State-Based Navigation:</strong> The robot followed complex logic rules based on wall color (e.g., turning 90° for blue/black walls, passing through green "doors," stopping at red).</li>
+                    <li><strong>Angle Correction:</strong> The color sensor array calculated the angle of incidence to self-correct if the robot approached a line at an angle greater than 5 degrees.</li>
+                    <li><strong>SOS Pure Tone Detection:</strong> A custom analog circuit (microphone, biquad filter, Schmitt triggers, RC low-pass) that detected a specific 2kHz emergency frequency to trigger an interrupt.</li>
+                    <li><strong>Web Diagnostics:</strong> A Wi-Fi-enabled web app displayed real-time states, wheel speeds, and sensor data, and allowed for remote state transitions.</li>
+                </ul>
+
+                <h3>My Technical Contributions</h3>
+                <p>
+                    I developed the System Navigation Control (SNC), the "mind" of the robot, which processed sensor data to determine state transitions (Idle, Calibrate, Maze, SOS) and motor commands. I also designed and built the analog circuitry for the 2kHz SOS detection system and created rigorous Quality Test Procedures (QTPs) to fine-tune the logic.
+                </p>
+
+                <p><strong>Technologies used:</strong> C++, ESP32, Analog Circuit Design (Filters, Op-Amps), WebSockets, HTML/JS (for dashboard)</p>
+                
                 </div>
-            </div>
 
         </div>
     </div> </main>
