@@ -508,3 +508,60 @@ body.skip-intro #page-content {
     color: #333;
     line-height: 1;
 }
+
+/* --- EXPERIMENT 3: TYPE RACER STYLES --- */
+
+.type-racer-card {
+    grid-column: span 2; /* Make it wide like dice roller */
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.racer-stats {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 15px;
+    font-weight: bold;
+    color: #555;
+}
+
+#racer-text-display {
+    background: #eee;
+    padding: 15px;
+    border-radius: 8px;
+    margin-bottom: 15px;
+    font-family: monospace;
+    font-size: 1.2em;
+    line-height: 1.5;
+    white-space: pre-wrap; /* Preserves spaces and line breaks */
+    text-align: left;
+    user-select: none; /* Prevents cheating by copy-paste */
+}
+
+#racer-input {
+    width: 100%;
+    height: 80px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font-family: monospace;
+    font-size: 1.2em;
+    resize: none; /* Locks size */
+    margin-bottom: 15px;
+}
+
+/* Highlighting classes applied by JS */
+.char-correct {
+    color: #28a745;
+    background-color: #e6ffed;
+}
+
+.char-incorrect {
+    color: #dc3545;
+    background-color: #ffe6e6;
+    text-decoration: underline;
+}
+
+.current-char {
+    border-bottom: 2px solid #333; /* Underline the next character to type */
+}

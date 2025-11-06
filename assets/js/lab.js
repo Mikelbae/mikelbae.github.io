@@ -142,4 +142,137 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
+    // =========================================
+    // EXPERIMENT 3: SPEED TYPING TEST
+    // =========================================
+    const racerDisplay = document.getElementById('racer-text-display');
+    const racerInput = document.getElementById('racer-input');
+    const startBtn = document.getElementById('racer-start-btn');
+    const timeSpan = document.getElementById('racer-time');
+    const wpmSpan = document.getElementById('racer-wpm');
+    const errorSpan = document.getElementById('racer-errors');
+
+    // Sample texts to type
+    const quotes = [
+        "The quick brown fox jumps over the lazy dog.",
+        "To be or not to be, that is the question.",
+        "Programs must be written for people to read, and only incidentally for machines to execute.",
+        "Debugging is twice as hard as writing the code in the first place.",
+        "It's not a bug, it's an undocumented feature."
+    ];
+
+    let startTime, timerInterval;
+    let isRacing = false;
+
+    if (startBtn && racerInput) {
+        startBtn.addEventListener('click', () => {
+            if (isRacing) {
+                resetGame();
+            } else {
+                startGame();
+            }
+        });
+
+        racerInput.addEventListener('input', () => {
+            if (!isRacing) return;
+
+            const arrayQuote = racerDisplay.querySelectorAll('span');
+            const arrayValue = racerInput.value.split('');
+            let correct = true;
+            let errors = 0;
+
+            // Loop through every character in the display text
+            arrayQuote.forEach((characterSpan, index) => {
+                const character = arrayValue[index];
+
+                if (character == null) {
+                    // Hasn't typed this far yet
+                    characterSpan.classList.remove('char-correct');
+                    characterSpan.classList.remove('char-incorrect');
+                    correct = false;
+                } else if (character === characterSpan.innerText) {
+                    // Typed correctly
+                    characterSpan.classList.add('char-correct');
+                    characterSpan.classList.remove('char-incorrect');
+                } else {
+                    // Typed incorrectly
+                    characterSpan.classList.remove('char-correct');
+                    characterSpan.classList.add('char-incorrect');
+                    errors++;
+                    correct = false;
+                }
+            });
+
+            errorSpan.innerText = errors;
+
+            // Check if finished
+            if (correct && arrayValue.length === arrayQuote.length) {
+                endGame();
+            }
+        });
+    }
+
+    function startGame() {
+        isRacing = true;
+        startBtn.innerText = "Reset Test";
+        racerInput.disabled = false;
+        racerInput.value = '';
+        racerInput.focus();
+
+        // 1. Pick random quote
+        const quoteIndex = Math.floor(Math.random() * quotes.length);
+        const quote = quotes[quoteIndex];
+
+        // 2. Clear display and re-create it as individual spans
+        racerDisplay.innerHTML = '';
+        quote.split('').forEach(character => {
+            const characterSpan = document.createElement('span');
+            characterSpan.innerText = character;
+            racerDisplay.appendChild(characterSpan);
+        });
+
+        // 3. Start Timer
+        startTime = new Date();
+        timerInterval = setInterval(updateTimer, 1000);
+    }
+
+    function updateTimer() {
+        const currentTime = new Date();
+        const timeElapsed = Math.floor((currentTime - startTime) / 1000); // in seconds
+        timeSpan.innerText = timeElapsed + 's';
+        
+        // Calculate WPM roughly every second
+        calculateWPM(timeElapsed);
+    }
+
+    function calculateWPM(timeElapsed) {
+        const wordsTyped = racerInput.value.length / 5; // Standard: 5 chars = 1 word
+        const minutes = timeElapsed / 60;
+        const wpm = Math.round(wordsTyped / minutes) || 0;
+        wpmSpan.innerText = wpm;
+    }
+
+    function endGame() {
+        clearInterval(timerInterval);
+        isRacing = false;
+        racerInput.disabled = true;
+        startBtn.innerText = "Start New Test";
+        
+        // Final WPM calculation
+        const timeElapsed = Math.floor((new Date() - startTime) / 1000);
+        calculateWPM(timeElapsed);
+    }
+
+    function resetGame() {
+        clearInterval(timerInterval);
+        isRacing = false;
+        racerInput.disabled = true;
+        racerInput.value = '';
+        racerDisplay.innerText = 'Click "Start Test" to begin...';
+        timeSpan.innerText = '0s';
+        wpmSpan.innerText = '0';
+        errorSpan.innerText = '0';
+        startBtn.innerText = "Start Test";
+    }
+
 });
