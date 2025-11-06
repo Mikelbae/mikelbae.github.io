@@ -27,13 +27,56 @@
 
         <div class="lab-grid">
 
-            <div class="lab-card">
-                <h2>D20 Dice Roller</h2>
-                <p>A simple random number generator for when I forget my dice.</p>
+            <div class="lab-card dice-roller-card">
+                <h2>Advanced Dice Roller</h2>
+                <p>Select your dice combination and modifiers.</p>
                 
                 <div class="experiment-area">
-                    <div id="dice-result">20</div>
-                    <button id="roll-btn" class="button">Roll D20</button>
+                    <div class="dice-grid">
+                        <div class="dice-input">
+                            <label>d4</label>
+                            <input type="number" id="d4-count" min="0" value="0">
+                        </div>
+                        <div class="dice-input">
+                            <label>d6</label>
+                            <input type="number" id="d6-count" min="0" value="0">
+                        </div>
+                        <div class="dice-input">
+                            <label>d8</label>
+                            <input type="number" id="d8-count" min="0" value="0">
+                        </div>
+                        <div class="dice-input">
+                            <label>d10</label>
+                            <input type="number" id="d10-count" min="0" value="0">
+                        </div>
+                        <div class="dice-input">
+                            <label>d12</label>
+                            <input type="number" id="d12-count" min="0" value="0">
+                        </div>
+                        <div class="dice-input">
+                            <label>d20</label>
+                            <input type="number" id="d20-count" min="0" value="1"> </div>
+                         <div class="dice-input">
+                            <label>d100</label>
+                            <input type="number" id="d100-count" min="0" value="0">
+                        </div>
+                    </div>
+
+                    <div class="modifier-input">
+                        <label>Flat Modifier (+/-)</label>
+                        <input type="number" id="roll-modifier" value="0">
+                    </div>
+
+                    <button id="roll-btn" class="button full-width">Roll Dice</button>
+
+                    <div id="dice-results-area" style="display: none;">
+                        <div class="total-result">
+                            <span id="total-value">0</span>
+                        </div>
+                        <div class="breakdown" id="roll-breakdown">
+                            </div>
+                    </div>
+
                 </div>
             </div>
 
