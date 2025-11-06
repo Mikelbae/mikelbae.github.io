@@ -7,6 +7,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const rollBtn = document.getElementById('roll-btn');
     const resultsArea = document.getElementById('dice-results-area');
     const totalValueSpan = document.getElementById('total-value');
+    const averageValueSpan = document.getElementById('average-value');
     const breakdownDiv = document.getElementById('roll-breakdown');
 
     // Config for all dice types
@@ -20,15 +21,33 @@ document.addEventListener('DOMContentLoaded', () => {
         { id: 'd100-count', sides: 100 }
     ];
 
+    // --- NEW: ADD CLICK LISTENERS TO LABELS ---
+    // This finds the <label> right before each input and makes it clickable
+    diceTypes.forEach(die => {
+        const input = document.getElementById(die.id);
+        // Find the label immediately preceding the input
+        const label = input.previousElementSibling;
+        
+        if (label && label.tagName === 'LABEL') {
+            label.addEventListener('click', () => {
+                // Get current value, default to 0 if empty
+                let currentValue = parseInt(input.value) || 0;
+                // Increment and update
+                input.value = currentValue + 1;
+            });
+        }
+    });
+
     if (rollBtn) {
         rollBtn.addEventListener('click', () => {
             let grandTotal = 0;
+            let totalAverage = 0; // Track the statistical average
             let breakdownParts = [];
 
             // 1. Loop through each dice type
             diceTypes.forEach(die => {
                 const countInput = document.getElementById(die.id);
-                const count = parseInt(countInput.value) || 0; // Default to 0 if empty
+                const count = parseInt(countInput.value) || 0;
 
                 if (count > 0) {
                     let currentDiceTotal = 0;
@@ -43,6 +62,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
                     grandTotal += currentDiceTotal;
 
+                    // Calculate average for these dice: count * (sides + 1) / 2
+                    // e.g., 2d6 avg = 2 * (6+1)/2 = 7
+                    totalAverage += count * (die.sides + 1) / 2;
+
                     // Add to breakdown: "3d6 (4, 1, 6)"
                     breakdownParts.push(`${count}d${die.sides} (${individualRolls.join(', ')})`);
                 }
@@ -54,34 +77,36 @@ document.addEventListener('DOMContentLoaded', () => {
 
             if (modifier !== 0) {
                 grandTotal += modifier;
-                // Add "+" sign if positive, automatically has "-" if negative
+                totalAverage += modifier; // Modifier also adds to the average
+                
                 const sign = modifier > 0 ? '+' : '';
                 breakdownParts.push(`Modifier (${sign}${modifier})`);
             }
 
             // 3. Display Results
             if (breakdownParts.length === 0) {
-                // User didn't select ANYTHING
                 totalValueSpan.innerText = "0";
+                averageValueSpan.innerText = "0";
                 breakdownDiv.innerText = "Please select at least one die.";
             } else {
                 totalValueSpan.innerText = grandTotal;
-                // Join parts with " + " for a nice formula look
+                // Display average, rounded to 1 decimal place if needed
+                // Number.isInteger checks if it has a decimal part
+                averageValueSpan.innerText = Number.isInteger(totalAverage) ? totalAverage : totalAverage.toFixed(1);
+                
                 breakdownDiv.innerText = breakdownParts.join(' + ');
             }
             
-            // 4. Show the results area
             resultsArea.style.display = 'block';
 
             // Optional: Color crits for d20 ONLY if exactly ONE d20 was rolled
             const d20Count = parseInt(document.getElementById('d20-count').value) || 0;
             if (d20Count === 1 && breakdownParts.length === 1 && modifier === 0) {
-                 // Simple check: is the grandTotal 20 or 1?
                  if (grandTotal === 20) totalValueSpan.style.color = '#28a745';
                  else if (grandTotal === 1) totalValueSpan.style.color = '#dc3545';
                  else totalValueSpan.style.color = '#333';
             } else {
-                totalValueSpan.style.color = '#333'; // Reset color for multi-rolls
+                totalValueSpan.style.color = '#333';
             }
 
         });

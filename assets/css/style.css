@@ -424,3 +424,51 @@ body.skip-intro #page-content {
     from { opacity: 0; transform: translateY(-10px); }
     to { opacity: 1; transform: translateY(0); }
 }
+
+/* Make labels clickable */
+.dice-input label {
+    cursor: pointer; /* Shows a hand icon on hover */
+    user-select: none; /* Prevents text highlighting when clicking fast */
+    transition: color 0.2s;
+}
+
+.dice-input label:hover {
+    color: #17a2b8; /* Highlight color on hover */
+}
+
+/* New Results Layout */
+.results-flex {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    margin-bottom: 15px;
+}
+
+.result-box {
+    text-align: center;
+}
+
+.result-label {
+    display: block;
+    font-size: 0.9em;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: #777;
+    margin-bottom: 5px;
+}
+
+/* Main Total */
+.main-result #total-value {
+    font-size: 4em;
+    font-weight: bold;
+    color: #333;
+    line-height: 1;
+}
+
+/* Average Display (slightly smaller/greyer) */
+.avg-result #average-value {
+    font-size: 4em;
+    font-weight: bold;
+    color: #999; /* Grey to differentiate from the actual roll */
+    line-height: 1;
+}
