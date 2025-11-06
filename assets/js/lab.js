@@ -112,4 +112,34 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
+    // =========================================
+    // EXPERIMENT 2: REAL-TIME TEXT ANALYSIS
+    // =========================================
+    const textInput = document.getElementById('text-analysis-input');
+    const charCountSpan = document.getElementById('char-count');
+    const wordCountSpan = document.getElementById('word-count');
+    const sentenceCountSpan = document.getElementById('sentence-count');
+
+    if (textInput) {
+        // The 'input' event fires every time the text changes (typing, pasting, deleting)
+        textInput.addEventListener('input', () => {
+            const text = textInput.value;
+
+            // 1. Character Count (easy!)
+            charCountSpan.innerText = text.length;
+
+            // 2. Word Count
+            // We trim whitespace from ends, then split by any whitespace character (\s+)
+            // We check if text is empty first to avoid counting an empty string as 1 word
+            const words = text.trim() === '' ? [] : text.trim().split(/\s+/);
+            wordCountSpan.innerText = words.length;
+
+            // 3. Sentence Count
+            // Split by common sentence terminators (. ! ?)
+            // filter(Boolean) removes empty entries caused by trailing punctuation
+            const sentences = text.split(/[.!?]+/).filter(Boolean);
+            sentenceCountSpan.innerText = sentences.length;
+        });
+    }
+
 });

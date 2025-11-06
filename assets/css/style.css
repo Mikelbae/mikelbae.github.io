@@ -472,3 +472,39 @@ body.skip-intro #page-content {
     color: #999; /* Grey to differentiate from the actual roll */
     line-height: 1;
 }
+
+/* --- EXPERIMENT 2: TEXT ANALYSIS STYLES --- */
+
+#text-analysis-input {
+    width: 100%;
+    height: 120px;
+    padding: 15px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    resize: vertical; /* Allows user to make it taller, but not wider */
+    font-family: inherit; /* Uses the same font as the rest of the site */
+    font-size: 1em;
+    margin-bottom: 20px;
+    box-sizing: border-box; /* Ensures padding doesn't break width */
+}
+
+#text-analysis-input:focus {
+    outline: none;
+    border-color: #333;
+}
+
+.analysis-results {
+    display: flex;
+    justify-content: space-around;
+    border-top: 2px solid #eee;
+    padding-top: 20px;
+}
+
+/* Reuse .result-box and .result-label from dice roller, 
+   but make specific styles for these counters if needed */
+.analysis-results .result-box span:last-child {
+    font-size: 2.5em;
+    font-weight: bold;
+    color: #333;
+    line-height: 1;
+}
