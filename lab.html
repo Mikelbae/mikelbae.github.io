@@ -130,6 +130,37 @@
                 </div>
             </div>
 
+            <div class="lab-card speech-jammer-card">
+                <h2>Speech Jammer (DAF)</h2>
+                <p>Attempts to disrupt speech by playing your own voice back with a slight delay.</p>
+                
+                <div class="experiment-area">
+                    <div class="jammer-warning">
+                        ⚠️ <strong>HEADPHONES REQUIRED</strong> ⚠️<br>
+                        Using speakers will cause painful audio feedback screeching.
+                    </div>
+
+                    <div class="jammer-controls">
+                        <label for="delay-time">Delay: <span id="delay-val">200</span>ms</label>
+                        <input type="range" id="delay-slider" min="0" max="500" step="10" value="200">
+                    </div>
+
+                    <button id="jammer-btn" class="button full-width">Start Jammer</button>
+
+                    <div id="jammer-status" style="display: none;">
+                        <span class="rec-dot"></span> Microphone Active
+                    </div>
+
+                    <div class="jammer-text">
+                        <h3>Read this aloud while jammed:</h3>
+                        <p>
+                            "Twinkle, twinkle, little bat! How I wonder what you're at! Up above the world you fly, like a tea-tray in the sky. Twinkle, twinkle, little bat! How I wonder what you're at!"
+                        </p>
+                    </div>
+
+                </div>
+            </div>
+
             </div>
     </main>
 

@@ -275,4 +275,87 @@ document.addEventListener('DOMContentLoaded', () => {
         startBtn.innerText = "Start Test";
     }
 
+    // =========================================
+    // EXPERIMENT 4: SPEECH JAMMER (DAF)
+    // =========================================
+    const jammerBtn = document.getElementById('jammer-btn');
+    const delaySlider = document.getElementById('delay-slider');
+    const delayVal = document.getElementById('delay-val');
+    const jammerStatus = document.getElementById('jammer-status');
+
+    let audioCtx;
+    let mediaStreamSource;
+    let delayNode;
+    let isJamming = false;
+
+    // Update the ms display when slider moves
+    if (delaySlider && delayVal) {
+        delaySlider.addEventListener('input', () => {
+            delayVal.innerText = delaySlider.value;
+            if (delayNode) {
+                // Convert ms to seconds for the Web Audio API
+                delayNode.delayTime.value = delaySlider.value / 1000;
+            }
+        });
+    }
+
+    if (jammerBtn) {
+        jammerBtn.addEventListener('click', async () => {
+            if (!isJamming) {
+                // --- START JAMMER ---
+                try {
+                    // 1. Request Microphone Access
+                    const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+                    
+                    // 2. Create Audio Context if it doesn't exist
+                    if (!audioCtx) {
+                        audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+                    }
+                    
+                    // 3. Resume context (needed for some browsers' autoplay policies)
+                    if (audioCtx.state === 'suspended') {
+                        await audioCtx.resume();
+                    }
+
+                    // 4. Create the audio nodes
+                    mediaStreamSource = audioCtx.createMediaStreamSource(stream);
+                    delayNode = audioCtx.createDelay(1.0); // Max 1 second delay capacity
+                    delayNode.delayTime.value = delaySlider.value / 1000; // Set initial delay
+
+                    // 5. Connect: Mic -> Delay -> Speakers
+                    mediaStreamSource.connect(delayNode);
+                    delayNode.connect(audioCtx.destination);
+
+                    // 6. Update UI
+                    isJamming = true;
+                    jammerBtn.innerText = "Stop Jammer";
+                    jammerBtn.style.backgroundColor = "#dc3545"; // Turn button red
+                    jammerStatus.style.display = "block";
+
+                } catch (err) {
+                    console.error("Microphone access denied or error occurred:", err);
+                    alert("Could not access microphone. Please allow permissions and try again.");
+                }
+            } else {
+                // --- STOP JAMMER ---
+                if (mediaStreamSource && delayNode) {
+                    // Disconnect the nodes to stop the audio processing
+                    mediaStreamSource.disconnect();
+                    delayNode.disconnect();
+                }
+                
+                // Stop the actual microphone stream (turns off the browser recording dot)
+                if (mediaStreamSource && mediaStreamSource.mediaStream) {
+                     mediaStreamSource.mediaStream.getTracks().forEach(track => track.stop());
+                }
+
+                // Update UI
+                isJamming = false;
+                jammerBtn.innerText = "Start Jammer";
+                jammerBtn.style.backgroundColor = ""; // Reset button color
+                jammerStatus.style.display = "none";
+            }
+        });
+    }
+
 });

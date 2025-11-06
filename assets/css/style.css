@@ -565,3 +565,72 @@ body.skip-intro #page-content {
 .current-char {
     border-bottom: 2px solid #333; /* Underline the next character to type */
 }
+
+/* --- EXPERIMENT 4: SPEECH JAMMER STYLES --- */
+
+.speech-jammer-card {
+    grid-column: span 2;
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.jammer-warning {
+    background-color: #fff3cd;
+    color: #856404;
+    border: 1px solid #ffeeba;
+    padding: 10px;
+    border-radius: 5px;
+    text-align: center;
+    margin-bottom: 20px;
+    font-size: 0.9em;
+}
+
+.jammer-controls {
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.jammer-controls label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.jammer-controls input[type="range"] {
+    width: 80%;
+}
+
+.jammer-text {
+    margin-top: 25px;
+    padding: 15px;
+    background: #f1f1f1;
+    border-left: 4px solid #333;
+    border-radius: 4px;
+}
+
+.jammer-text h3 {
+    margin-top: 0;
+}
+
+#jammer-status {
+    margin-top: 15px;
+    text-align: center;
+    color: #dc3545; /* Red color for active status */
+    font-weight: bold;
+    animation: pulse 1.5s infinite;
+}
+
+.rec-dot {
+    height: 12px;
+    width: 12px;
+    background-color: #dc3545;
+    border-radius: 50%;
+    display: inline-block;
+    margin-right: 5px;
+}
+
+@keyframes pulse {
+    0% { opacity: 1; }
+    50% { opacity: 0.5; }
+    100% { opacity: 1; }
+}
