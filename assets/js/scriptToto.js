@@ -7,25 +7,35 @@ document.addEventListener('DOMContentLoaded', () => {
     const tvSound = document.getElementById('tv-on-sound');
     const scarySound = document.getElementById('scary-sound');
 
-    if (startButton) {
-        startButton.addEventListener('click', () => {
-            // A. Start visual animations
-            document.body.classList.add('animate-intro');
+    // CHECK: Has the user already seen the intro this session?
+    if (sessionStorage.getItem('introPlayed') === 'true') {
+        // YES: Add the class to skip everything immediately
+        document.body.classList.add('skip-intro');
+    } else {
+        // NO: Set up the click listener.
+        if (startButton) {
+            startButton.addEventListener('click', () => {
+                // REMEMBER: Save this so it doesn't play again
+                sessionStorage.setItem('introPlayed', 'true');
 
-            // B. Play TV Sound IMMEDIATELY (0s)
-            if (tvSound) {
-                tvSound.volume = 0.4;
-                tvSound.play().catch(e => console.log("Audio failed:", e));
-            }
+                // A. Start visual animations
+                document.body.classList.add('animate-intro');
 
-            // C. Play Scary Sound when name starts appearing (0.5s)
-            if (scarySound) {
-                setTimeout(() => {
-                    scarySound.volume = 0.6;
-                    scarySound.play().catch(e => console.log("Audio failed:", e));
-                }, 500); // 500ms matches the animation-delay of the name image in CSS
-            }
-        });
+                // B. Play TV Sound IMMEDIATELY
+                if (tvSound) {
+                    tvSound.volume = 0.4;
+                    tvSound.play().catch(e => console.log("Audio failed:", e));
+                }
+
+                // C. Play Scary Sound when name starts appearing (0.5s)
+                if (scarySound) {
+                    setTimeout(() => {
+                        scarySound.volume = 0.6;
+                        scarySound.play().catch(e => console.log("Audio failed:", e));
+                    }, 500);
+                }
+            });
+        }
     }
 
     // =========================================

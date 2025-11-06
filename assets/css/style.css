@@ -325,3 +325,17 @@ body.animate-intro #page-content {
 .copy-btn:hover {
     background-color: #ddd;
 }
+
+/* --- SKIP INTRO STATE --- */
+/* These styles apply if the user has already visited the site in this session */
+
+body.skip-intro #start-screen,
+body.skip-intro #tv-overlay,
+body.skip-intro #intro-name-img {
+    display: none !important; /* Force hide all intro elements */
+}
+
+body.skip-intro #page-content {
+    opacity: 1 !important; /* Force main content visible immediately */
+    animation: none !important; /* Prevent the 6-second delay animation from running */
+}
